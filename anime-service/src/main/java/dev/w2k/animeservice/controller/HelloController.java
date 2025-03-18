@@ -1,4 +1,4 @@
-package dev.w2k.animeservice.controllers;
+package dev.w2k.animeservice.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
