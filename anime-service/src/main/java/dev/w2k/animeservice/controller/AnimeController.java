@@ -40,11 +40,6 @@ public class AnimeController {
 
   @GetMapping("{id}")
   public Anime findById(@PathVariable Long id) {
-    if (id == null) {
-      log.warn("Anime not found");
-      return null;
-    }
-
     log.info("Searching for anime with id: {}", id);
     return Anime.getAnimes().stream()
         .filter(anime -> anime.getId().equals(id))
