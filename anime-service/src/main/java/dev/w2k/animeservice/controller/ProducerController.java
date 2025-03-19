@@ -1,6 +1,9 @@
 package dev.w2k.animeservice.controller;
 
 import dev.w2k.animeservice.domain.Producer;
+import dev.w2k.animeservice.request.ProducerPostRequest;
+import dev.w2k.animeservice.response.ProducerGetResponse;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import lombok.extern.slf4j.Slf4j;
@@ -19,16 +22,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class ProducerController {
   /*
-  *
-  * @GetMapping
-  * public List<String> listAll() throws InterruptedException {
-  *   Simulate a slow request, so we can see the benefits of using a custom thread pool.
-  *
-  *   log.info(Thread.currentThread().getName());
-  *   TimeUnit.SECONDS.sleep(1);
-  *   return List.of("Dragon Ball", "Naruto", "One Piece");
-  * }
-  * */
+   *
+   * @GetMapping
+   * public List<String> listAll() throws InterruptedException {
+   *   Simulate a slow request, so we can see the benefits of using a custom thread pool.
+   *
+   *   log.info(Thread.currentThread().getName());
+   *   TimeUnit.SECONDS.sleep(1);
+   *   return List.of("Dragon Ball", "Naruto", "One Piece");
+   * }
+   * */
 
   @GetMapping
   public List<Producer> listAll(@RequestParam(required = false, defaultValue = "") String name) {
@@ -53,18 +56,30 @@ public class ProducerController {
   }
 
   /*
-  * @PostMapping
-  * podemos passar headers especificos para o endpoint
-  * Ex: @PostMapping(headers = "x-api-key=123")
-  * Com isso só será possível acessar o endpoint se o header x-api-key for igual a 123
-  * Quando colocar headers ele vai ficar obrigatorio
-  * */
+   * @PostMapping
+   * podemos passar headers especificos para o endpoint
+   * Ex: @PostMapping(headers = "x-api-key=123")
+   * Com isso só será possível acessar o endpoint se o header x-api-key for igual a 123
+   * Quando colocar headers ele vai ficar obrigatorio
+   * */
   @PostMapping
-  public ResponseEntity<Producer> create(@RequestBody Producer producer) {
-    log.info("Creating producer: {}", producer);
-    producer.setId(ThreadLocalRandom.current().nextLong(1, 1000));
+  public ResponseEntity<ProducerGetResponse> create(
+      @RequestBody ProducerPostRequest producerPostRequest) {
+    log.info("Creating producer: {}", producerPostRequest);
+    var producer = Producer.builder()
+        .name(producerPostRequest.getName())
+        .id(ThreadLocalRandom.current().nextLong(1, 1000))
+        .createdAt(LocalDateTime.now())
+        .build();
+
     Producer.getProducers().add(producer);
 
-    return ResponseEntity.status(HttpStatus.CREATED).body(producer);
+    var response = ProducerGetResponse.builder()
+        .id(producer.getId())
+        .name(producer.getName())
+        .createdAt(producer.getCreatedAt())
+        .build();
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 }
