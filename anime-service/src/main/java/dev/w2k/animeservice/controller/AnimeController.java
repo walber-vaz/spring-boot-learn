@@ -70,9 +70,10 @@ public class AnimeController {
   public ResponseEntity<AnimeGetResponse> create(@RequestBody AnimePostRequest animePostRequest) {
     log.info("Creating anime: {}", animePostRequest);
     var anime = MAPPER.toAnime(animePostRequest);
-    var response = MAPPER.toAnimeGetResponse(anime);
 
     Anime.getAnimes().add(anime);
+
+    var response = MAPPER.toAnimeGetResponse(anime);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
