@@ -20,18 +20,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("v1/animes")
 @Slf4j
 public class AnimeController {
+
   private static final AnimeMapper MAPPER = AnimeMapper.INSTANCE;
   /*
-  *
-  * @GetMapping
-  * public List<String> listAll() throws InterruptedException {
-  *   Simulate a slow request, so we can see the benefits of using a custom thread pool.
-  *
-  *   log.info(Thread.currentThread().getName());
-  *   TimeUnit.SECONDS.sleep(1);
-  *   return List.of("Dragon Ball", "Naruto", "One Piece");
-  * }
-  * */
+   *
+   * @GetMapping
+   * public List<String> listAll() throws InterruptedException {
+   *   Simulate a slow request, so we can see the benefits of using a custom thread pool.
+   *
+   *   log.info(Thread.currentThread().getName());
+   *   TimeUnit.SECONDS.sleep(1);
+   *   return List.of("Dragon Ball", "Naruto", "One Piece");
+   * }
+   * */
 
   @GetMapping
   public ResponseEntity<List<AnimeGetResponse>> listAll(@RequestParam(required = false,
@@ -42,30 +43,27 @@ public class AnimeController {
 
     if (name == null) {
       return ResponseEntity.ok(mappedAnimes);
-    } else {
-      var filteredAnimes = animes.stream()
-          .filter(a -> a.getName().toLowerCase().contains(name.toLowerCase()))
-          .toList();
-      var mappedFilteredAnimes = MAPPER.toAnimeGetResponseList(filteredAnimes);
-
-      return ResponseEntity.ok(mappedFilteredAnimes);
     }
+
+    var response = mappedAnimes.stream()
+        .filter(a -> a.getName().toLowerCase().contains(name.toLowerCase()))
+        .toList();
+
+    return ResponseEntity.ok(response);
   }
 
   @GetMapping("{id}")
   public ResponseEntity<AnimeGetResponse> findById(@PathVariable Long id) {
     log.info("Searching for anime with id: {}", id);
-    var anime = Anime.getAnimes().stream()
-        .filter(a -> a.getId().equals(id))
+    var animeGetResponse = Anime.getAnimes().stream()
+        .filter(anime -> anime.getId().equals(id))
         .findFirst()
+        .map(MAPPER::toAnimeGetResponse)
         .orElse(null);
 
-    if (anime == null) {
-      return ResponseEntity.notFound().build();
-    } else {
-      var response = MAPPER.toAnimeGetResponse(anime);
-      return ResponseEntity.ok(response);
-    }
+    return animeGetResponse != null
+        ? ResponseEntity.ok(animeGetResponse)
+        : ResponseEntity.notFound().build();
   }
 
   @PostMapping
