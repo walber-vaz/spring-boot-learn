@@ -4,6 +4,8 @@ import dev.w2k.animeservice.domain.Producer;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,11 +60,11 @@ public class ProducerController {
   * Quando colocar headers ele vai ficar obrigatorio
   * */
   @PostMapping
-  public Producer create(@RequestBody Producer producer) {
+  public ResponseEntity<Producer> create(@RequestBody Producer producer) {
     log.info("Creating producer: {}", producer);
     producer.setId(ThreadLocalRandom.current().nextLong(1, 1000));
     Producer.getProducers().add(producer);
 
-    return producer;
+    return ResponseEntity.status(HttpStatus.CREATED).body(producer);
   }
 }
