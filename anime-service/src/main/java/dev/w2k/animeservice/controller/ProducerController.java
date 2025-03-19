@@ -1,11 +1,10 @@
 package dev.w2k.animeservice.controller;
 
 import dev.w2k.animeservice.domain.Producer;
+import dev.w2k.animeservice.mapper.ProducerMapper;
 import dev.w2k.animeservice.request.ProducerPostRequest;
 import dev.w2k.animeservice.response.ProducerGetResponse;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("v1/producers")
 @Slf4j
 public class ProducerController {
+
+  private static final ProducerMapper MAPPER = ProducerMapper.INSTANCE;
   /*
    *
    * @GetMapping
@@ -66,19 +67,10 @@ public class ProducerController {
   public ResponseEntity<ProducerGetResponse> create(
       @RequestBody ProducerPostRequest producerPostRequest) {
     log.info("Creating producer: {}", producerPostRequest);
-    var producer = Producer.builder()
-        .name(producerPostRequest.getName())
-        .id(ThreadLocalRandom.current().nextLong(1, 1000))
-        .createdAt(LocalDateTime.now())
-        .build();
+    var mapperProducer = MAPPER.toProducer(producerPostRequest);
+    var response = MAPPER.toProducerGetResponse(mapperProducer);
 
-    Producer.getProducers().add(producer);
-
-    var response = ProducerGetResponse.builder()
-        .id(producer.getId())
-        .name(producer.getName())
-        .createdAt(producer.getCreatedAt())
-        .build();
+    Producer.getProducers().add(mapperProducer);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
