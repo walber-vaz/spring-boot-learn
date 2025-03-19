@@ -2,6 +2,7 @@ package dev.w2k.animeservice.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -15,8 +16,8 @@ public class Anime {
   @Getter
   private static List<Anime> animes = new ArrayList<>();
   static {
-    animes.add(new Anime(1L, "Naruto"));
-    animes.add(new Anime(2L, "Bleach"));
-    animes.add(new Anime(3L, "One Piece"));
+    animes.add(new Anime(ThreadLocalRandom.current().nextLong(1, 1000), "Naruto"));
+    animes.add(new Anime(ThreadLocalRandom.current().nextLong(1, 1000), "Dragon Ball"));
+    animes.add(new Anime(ThreadLocalRandom.current().nextLong(1, 1000), "One Piece"));
   }
 }
