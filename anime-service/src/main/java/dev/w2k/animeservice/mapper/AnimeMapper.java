@@ -12,7 +12,6 @@ import org.mapstruct.factory.Mappers;
 public interface AnimeMapper {
   AnimeMapper INSTANCE = Mappers.getMapper(AnimeMapper.class);
 
-  @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
   @Mapping(target = "id", expression = "java(java.util.concurrent.ThreadLocalRandom.current().nextLong(1, 1000))")
   Anime toAnime(AnimePostRequest animePostRequest);
 
