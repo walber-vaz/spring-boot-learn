@@ -1,6 +1,10 @@
 spring:
   application:
     name: anime-service
+  # thread virtual para o spring
+  threads:
+    virtual:
+      enabled: true
 
 # Podemos definir o contexto da aplicação Ex: /anime-service
 #server:
@@ -8,6 +12,10 @@ spring:
 #    context-path: /${spring.application.name}
 
 server:
+  # tomcat max de threads
+  tomcat:
+    threads:
+      max: 20
   error:
     # Remove a mensagem de erro padrão do Spring Boot sendo que pode ver passado por param ?trace=true
     # Em prod colocar como never
