@@ -26,23 +26,16 @@ public class AnimeController {
   * */
 
   @GetMapping
-  public List<Anime> listAll() {
-    log.info("Get all animes");
-    return Anime.getAnimes();
-  }
-
-  @GetMapping("/filter")
-  public Anime findByName(@RequestParam String name) {
-    if (name == null || name.isBlank()) {
-      log.warn("Anime not found");
-      return null;
+  public List<Anime> listAll(@RequestParam(required = false, defaultValue = "") String name) {
+    log.info("Searching for anime with name: {}", name);
+    List<Anime> animes = Anime.getAnimes();
+    if (name == null) {
+      return animes;
     }
 
-    log.info("Searching for anime: {}", name);
-    return Anime.getAnimes().stream()
-        .filter(anime -> anime.getName().equalsIgnoreCase(name))
-        .findFirst()
-        .orElse(null);
+    return animes.stream()
+        .filter(anime -> anime.getName().toLowerCase().contains(name.toLowerCase()))
+        .toList();
   }
 
   @GetMapping("{id}")
