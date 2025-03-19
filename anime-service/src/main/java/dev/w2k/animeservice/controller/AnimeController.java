@@ -2,9 +2,12 @@ package dev.w2k.animeservice.controller;
 
 import dev.w2k.animeservice.domain.Anime;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,5 +48,14 @@ public class AnimeController {
         .filter(anime -> anime.getId().equals(id))
         .findFirst()
         .orElse(null);
+  }
+
+  @PostMapping
+  public Anime create(@RequestBody Anime anime) {
+    log.info("Creating anime: {}", anime);
+    anime.setId(ThreadLocalRandom.current().nextLong(1, 1000));
+    Anime.getAnimes().add(anime);
+
+    return anime;
   }
 }
