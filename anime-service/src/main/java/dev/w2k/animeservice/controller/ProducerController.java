@@ -109,7 +109,7 @@ public class ProducerController {
         .findFirst()
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found"));
 
-    var mapperProducer = MAPPER.toProducer(request);
+    var mapperProducer = MAPPER.toProducer(request, producer.getCreatedAt());
     Producer.getProducers().remove(producer);
     Producer.getProducers().add(mapperProducer);
 
