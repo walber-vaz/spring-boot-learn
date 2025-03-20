@@ -3,6 +3,7 @@ package dev.w2k.animeservice.mapper;
 import dev.w2k.animeservice.domain.Producer;
 import dev.w2k.animeservice.request.ProducerPostRequest;
 import dev.w2k.animeservice.response.ProducerGetResponse;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -16,4 +17,6 @@ public interface ProducerMapper {
   Producer toProducer(ProducerPostRequest producerRequest);
 
   ProducerGetResponse toProducerGetResponse(Producer producer);
+
+  List<ProducerGetResponse> toProducerGetResponseList(List<Producer> producers);
 }
