@@ -3,6 +3,7 @@ package dev.w2k.animeservice.controller;
 import dev.w2k.animeservice.domain.Producer;
 import dev.w2k.animeservice.mapper.ProducerMapper;
 import dev.w2k.animeservice.request.ProducerPostRequest;
+import dev.w2k.animeservice.request.ProducerPutRequest;
 import dev.w2k.animeservice.response.ProducerGetResponse;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -97,5 +99,20 @@ public class ProducerController {
     Producer.getProducers().remove(producer);
 
     return ResponseEntity.noContent().build();
+  }
+
+  @PutMapping
+  public ResponseEntity<Void> update(@RequestBody ProducerPutRequest request) {
+    log.info("Updating producer with: {}", request);
+    var producer = Producer.getProducers().stream()
+        .filter(p -> p.getId().equals(request.getId()))
+        .findFirst()
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not found"));
+
+    var mapperProducer = MAPPER.toProducer(request);
+    Producer.getProducers().remove(producer);
+    Producer.getProducers().add(mapperProducer);
+
+    return ResponseEntity.ok().build();
   }
 }
