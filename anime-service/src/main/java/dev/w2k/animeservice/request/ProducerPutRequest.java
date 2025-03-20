@@ -8,6 +8,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class ProducerPutRequest {
+
   private Long id;
   private String name;
 }

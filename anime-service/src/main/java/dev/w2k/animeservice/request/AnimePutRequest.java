@@ -8,6 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class AnimePutRequest {
+
   private Long id;
   private String name;
 }

@@ -34,8 +34,11 @@ public class AnimeService {
   }
 
   public void update(Anime animeToUpdate) {
-    var anime = this.findByIdThrowNotFound(animeToUpdate.getId());
-    animeToUpdate.setCreatedAt(anime.getCreatedAt());
+    assertAnimeExists(animeToUpdate.getId());
     this.repository.update(animeToUpdate);
+  }
+
+  public void assertAnimeExists(Long id) {
+    this.findByIdThrowNotFound(id);
   }
 }

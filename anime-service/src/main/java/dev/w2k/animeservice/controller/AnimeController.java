@@ -1,6 +1,5 @@
 package dev.w2k.animeservice.controller;
 
-import dev.w2k.animeservice.domain.Anime;
 import dev.w2k.animeservice.mapper.AnimeMapper;
 import dev.w2k.animeservice.request.AnimePostRequest;
 import dev.w2k.animeservice.request.AnimePutRequest;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("v1/animes")
