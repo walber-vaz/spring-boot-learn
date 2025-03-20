@@ -3,6 +3,7 @@ package dev.w2k.animeservice.controller;
 import dev.w2k.animeservice.domain.Anime;
 import dev.w2k.animeservice.mapper.AnimeMapper;
 import dev.w2k.animeservice.request.AnimePostRequest;
+import dev.w2k.animeservice.request.AnimePutRequest;
 import dev.w2k.animeservice.response.AnimeGetResponse;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -91,5 +93,20 @@ public class AnimeController {
     Anime.getAnimes().remove(anime);
 
     return ResponseEntity.noContent().build();
+  }
+
+  @PutMapping
+  public ResponseEntity<Void> update(@RequestBody AnimePutRequest request) {
+    log.info("Updating anime with: {}", request);
+    var anime = Anime.getAnimes().stream()
+        .filter(a -> a.getId().equals(request.getId()))
+        .findFirst()
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found"));
+
+    var animeUpdate = MAPPER.toAnime(request);
+    Anime.getAnimes().remove(anime);
+    Anime.getAnimes().add(animeUpdate);
+
+    return ResponseEntity.ok().build();
   }
 }
