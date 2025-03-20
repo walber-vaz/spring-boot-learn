@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("v1/animes")
@@ -59,7 +60,7 @@ public class AnimeController {
         .filter(anime -> anime.getId().equals(id))
         .findFirst()
         .map(MAPPER::toAnimeGetResponse)
-        .orElse(null);
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found"));
 
     return animeGetResponse != null
         ? ResponseEntity.ok(animeGetResponse)
