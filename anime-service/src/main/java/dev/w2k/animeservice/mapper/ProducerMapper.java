@@ -4,7 +4,6 @@ import dev.w2k.animeservice.domain.Producer;
 import dev.w2k.animeservice.request.ProducerPostRequest;
 import dev.w2k.animeservice.request.ProducerPutRequest;
 import dev.w2k.animeservice.response.ProducerGetResponse;
-import java.time.LocalDateTime;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,7 +19,7 @@ public interface ProducerMapper {
   Producer toProducer(ProducerPostRequest producerRequest);
 
 
-  Producer toProducer(ProducerPutRequest request, LocalDateTime createdAt);
+  Producer toProducer(ProducerPutRequest request);
 
   ProducerGetResponse toProducerGetResponse(Producer producer);
 
