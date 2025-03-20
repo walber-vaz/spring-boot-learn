@@ -1,8 +1,6 @@
 package dev.w2k.animeservice.domain;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,27 +20,4 @@ public class Producer {
    * */
   private String name;
   private LocalDateTime createdAt;
-
-  @Getter
-  private static List<Producer> producers = new ArrayList<>();
-
-  static {
-    var madhouse = Producer.builder()
-        .id(1L)
-        .name("Madhouse")
-        .createdAt(LocalDateTime.now())
-        .build();
-    var sunrise = Producer.builder()
-        .id(2L)
-        .name("Sunrise")
-        .createdAt(LocalDateTime.now())
-        .build();
-    var toeiAnimation = Producer.builder()
-        .id(3L)
-        .name("Toei Animation")
-        .createdAt(LocalDateTime.now())
-        .build();
-
-    producers.addAll(List.of(madhouse, sunrise, toeiAnimation));
-  }
 }
