@@ -75,9 +75,9 @@ public class ProducerController {
     log.info("Creating producer: {}", producerPostRequest);
     var mapperProducer = MAPPER.toProducer(producerPostRequest);
 
-    var response = MAPPER.toProducerGetResponse(mapperProducer);
-
     this.service.save(mapperProducer);
+
+    var response = MAPPER.toProducerGetResponse(mapperProducer);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
