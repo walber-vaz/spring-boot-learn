@@ -2,7 +2,7 @@ package dev.w2k.animeservice.service;
 
 
 import dev.w2k.animeservice.domain.Producer;
-import dev.w2k.animeservice.repository.ProducerHardCoderRepository;
+import dev.w2k.animeservice.repository.ProducerHardCodeRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class ProducerService {
 
-  private final ProducerHardCoderRepository repository;
+  private final ProducerHardCodeRepository repository;
 
   public List<Producer> findAll(String name) {
     return name == null ? repository.findAll() : repository.findByName(name);
