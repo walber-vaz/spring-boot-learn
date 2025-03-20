@@ -8,7 +8,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ProducerHardCoderRepository {
+public class ProducerHardCodeRepository {
 
   private static final List<Producer> PRODUCERS = new ArrayList<>();
 
