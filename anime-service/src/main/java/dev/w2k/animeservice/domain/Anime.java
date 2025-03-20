@@ -3,7 +3,6 @@ package dev.w2k.animeservice.domain;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +19,7 @@ public class Anime {
 
   @Getter
   private static List<Anime> animes = new ArrayList<>();
+
   static {
     var naruto = Anime.builder()
         .id(1L)

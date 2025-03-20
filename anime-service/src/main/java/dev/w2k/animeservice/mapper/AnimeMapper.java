@@ -10,6 +10,7 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface AnimeMapper {
+
   AnimeMapper INSTANCE = Mappers.getMapper(AnimeMapper.class);
 
   @Mapping(target = "id", expression = "java(java.util.concurrent.ThreadLocalRandom.current().nextLong(1, 1000))")

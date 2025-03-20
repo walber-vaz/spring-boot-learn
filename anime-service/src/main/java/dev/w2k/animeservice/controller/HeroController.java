@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("v1/heroes")
 public class HeroController {
-  private static final List<String> HEROES = List.of("All Might", "Endeavor", "Hawks", "Best Jeanist", "Edgeshot");
+
+  private static final List<String> HEROES = List.of("All Might", "Endeavor", "Hawks",
+      "Best Jeanist", "Edgeshot");
 
   @GetMapping
   public List<String> listAllHeroes() {
@@ -32,7 +34,8 @@ public class HeroController {
   @GetMapping("filterList")
   public List<String> filterParamList(@RequestParam(required = false) List<String> names) {
     return HEROES.stream()
-        .filter(hero -> names.stream().anyMatch(name -> hero.toLowerCase().contains(name.toLowerCase())))
+        .filter(hero -> names.stream()
+            .anyMatch(name -> hero.toLowerCase().contains(name.toLowerCase())))
         .toList();
   }
 
