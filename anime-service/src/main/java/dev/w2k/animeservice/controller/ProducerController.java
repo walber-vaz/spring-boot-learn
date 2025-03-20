@@ -35,25 +35,34 @@ public class ProducerController {
    * */
 
   @GetMapping
-  public List<Producer> listAll(@RequestParam(required = false, defaultValue = "") String name) {
+  public ResponseEntity<List<ProducerGetResponse>> listAll(@RequestParam(required = false,
+      defaultValue = "") String name) {
     log.info("Searching for producer with name: {}", name);
-    List<Producer> producers = Producer.getProducers();
+    var producers = Producer.getProducers();
+    var mapperProducers = MAPPER.toProducerGetResponseList(producers);
+
     if (name == null) {
-      return producers;
+      return ResponseEntity.ok(mapperProducers);
     }
 
-    return producers.stream()
-        .filter(producer -> producer.getName().toLowerCase().contains(name.toLowerCase()))
+    var response = mapperProducers.stream()
+        .filter(a -> a.getName().toLowerCase().contains(name.toLowerCase()))
         .toList();
+
+    return ResponseEntity.ok(response);
   }
 
   @GetMapping("{id}")
-  public Producer findById(@PathVariable Long id) {
+  public ResponseEntity<ProducerGetResponse> findById(@PathVariable Long id) {
     log.info("Searching for producer with id: {}", id);
-    return Producer.getProducers().stream()
-        .filter(producer -> producer.getId().equals(id))
+    var producer = Producer.getProducers().stream()
+        .filter(p -> p.getId().equals(id))
         .findFirst()
-        .orElse(null);
+        .orElseThrow();
+
+    var response = MAPPER.toProducerGetResponse(producer);
+
+    return ResponseEntity.ok(response);
   }
 
   /*
