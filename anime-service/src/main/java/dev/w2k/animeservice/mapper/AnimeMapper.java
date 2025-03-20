@@ -16,6 +16,7 @@ public interface AnimeMapper {
 
   @Mapping(target = "id", expression = "java(java.util.concurrent.ThreadLocalRandom.current().nextLong(1, 1000))")
   Anime toAnime(AnimePostRequest animePostRequest);
+
   Anime toAnime(AnimePutRequest request);
 
   AnimeGetResponse toAnimeGetResponse(Anime anime);
