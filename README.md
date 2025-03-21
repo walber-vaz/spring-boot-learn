@@ -23,3 +23,9 @@ a imutabilidade da classe é garantida e facilita a realização de testes unit�
 - `@RestController`: é uma anotação que combina as funcionalidades das anotações `@Controller` e `@ResponseBody`. Ela é utilizada para indicar que a classe é um controlador Spring que retorna objetos no formato JSON.
 - `@Configuration`: é uma anotação que indica que a classe é uma classe de configuração Spring. Ela é utilizada para indicar que a classe contém métodos que configuram o container do Spring.
 - `@Bean`: é uma anotação que indica que o método retorna um objeto que deve ser gerenciado pelo container do Spring. Ela é utilizada em métodos de configuração para indicar que o objeto retornado pelo método deve ser gerenciado pelo container do Spring.
+
+### 3. Ao usar um `@Configuration` e `@Bean`?
+
+- `@Configuration`: O SpringBoot vai procurar um metado que contem a anotação `@Bean`, pelo nome 
+  que foi definido no método, e vai instanciar o objeto e colocar no contexto do Spring.
+- Caso tenho 2 `@Bean` usando mesmo objeto, voce pode usar `@Primary` para indicar qual é o principal.
