@@ -1,15 +1,21 @@
 package dev.w2k.animeservice.repository;
 
 import dev.w2k.animeservice.domain.Producer;
+import external.dependency.Connection;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@RequiredArgsConstructor
+@Log4j2
 public class ProducerHardCodeRepository {
 
+  private final Connection connection;
   private static final List<Producer> PRODUCERS = new ArrayList<>();
 
   static {
@@ -33,6 +39,7 @@ public class ProducerHardCodeRepository {
   }
 
   public List<Producer> findAll() {
+    log.info(connection);
     return PRODUCERS;
   }
 
