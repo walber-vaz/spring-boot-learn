@@ -7,9 +7,10 @@ import dev.w2k.animeservice.response.AnimeGetResponse;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface AnimeMapper {
 
   AnimeMapper INSTANCE = Mappers.getMapper(AnimeMapper.class);
