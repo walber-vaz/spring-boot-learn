@@ -69,21 +69,75 @@ class ProducerControllerTest {
   }
 
   @Test
-  @DisplayName("GET /producers should return 200 OK")
+  @DisplayName("GET /v1/producers should return 200 OK")
   @Order(1)
-  void findAll_ReturnsAllProducers() throws Exception {
+  void listAll_ReturnsAllProducers() throws Exception {
     BDDMockito.when(producerData.getProducers()).thenReturn(producerList);
 
-    var response = readResourceFile();
+    var response = readResourceFile("producer/get-producer-null-name-200.json");
     mockMvc.perform(MockMvcRequestBuilders.get("/v1/producers"))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json(response));
   }
 
-  private String readResourceFile() throws IOException {
-    var file = resourceLoader.getResource("classpath:%s".formatted(
-        "producer/get-producer-null-name-200.json")).getFile();
+  @Test
+  @DisplayName("GET /v1/producers?name=Ufotable should return 200 OK")
+  @Order(2)
+  void listAll_ReturnsAllProducersByName() throws Exception {
+    BDDMockito.when(producerData.getProducers()).thenReturn(producerList);
+    var name = "Ufotable";
+
+    var response = readResourceFile("producer/get-producer-get-name-200.json");
+    mockMvc.perform(MockMvcRequestBuilders.get("/v1/producers").param("name", name))
+        .andDo(MockMvcResultHandlers.print())
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content().json(response));
+  }
+
+  @Test
+  @DisplayName("GET /v1/producers?name=x returns empty list when name is not found")
+  @Order(3)
+  void listAll_ReturnsEmptyListWhenNameIsNotFound() throws Exception {
+    BDDMockito.when(producerData.getProducers()).thenReturn(producerList);
+    var name = "x";
+
+    var response = readResourceFile("producer/get-producer-x-200.json");
+    mockMvc.perform(MockMvcRequestBuilders.get("/v1/producers").param("name", name))
+        .andDo(MockMvcResultHandlers.print())
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content().json(response));
+  }
+
+  @Test
+  @DisplayName("GET /v1/producers/1 returns a list with all producers when argument is null")
+  @Order(4)
+  void findById_ReturnsAllProducers_WhenArgumentIsNull() throws Exception {
+    BDDMockito.when(producerData.getProducers()).thenReturn(producerList);
+    var response = readResourceFile("producer/get-producer-by-id-200.json");
+    var id = 1L;
+
+    mockMvc.perform(MockMvcRequestBuilders.get("/v1/producers/{id}", id))
+        .andDo(MockMvcResultHandlers.print())
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content().json(response));
+  }
+
+  @Test
+  @DisplayName("GET /v1/producers/99 findById throws exception ResponseStatusException when id does not exist")
+  @Order(5)
+  void findById_ThrowsResponseStatusException_WhenIdDoesNotExist() throws Exception {
+    BDDMockito.when(producerData.getProducers()).thenReturn(producerList);
+    var id = 99L;
+
+    mockMvc.perform(MockMvcRequestBuilders.get("/v1/producers/{id}", id))
+        .andDo(MockMvcResultHandlers.print())
+        .andExpect(MockMvcResultMatchers.status().isNotFound())
+        .andExpect(MockMvcResultMatchers.status().reason("Producer not found"));
+  }
+
+  private String readResourceFile(String filename) throws IOException {
+    var file = resourceLoader.getResource("classpath:%s".formatted(filename)).getFile();
     return new String(Files.readAllBytes(file.toPath()));
   }
 }
