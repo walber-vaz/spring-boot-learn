@@ -74,15 +74,16 @@ class ProducerControllerTest {
   void findAll_ReturnsAllProducers() throws Exception {
     BDDMockito.when(producerData.getProducers()).thenReturn(producerList);
 
-    var response = readResourceFile("producer/get-producer-null-name-200.json");
+    var response = readResourceFile();
     mockMvc.perform(MockMvcRequestBuilders.get("/v1/producers"))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json(response));
   }
 
-  private String readResourceFile(String fileName) throws IOException {
-    var file = resourceLoader.getResource("classpath:%s".formatted(fileName)).getFile();
+  private String readResourceFile() throws IOException {
+    var file = resourceLoader.getResource("classpath:%s".formatted(
+        "producer/get-producer-null-name-200.json")).getFile();
     return new String(Files.readAllBytes(file.toPath()));
   }
 }
