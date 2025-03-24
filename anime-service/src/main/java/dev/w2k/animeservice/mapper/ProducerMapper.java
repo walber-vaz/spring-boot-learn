@@ -7,9 +7,10 @@ import dev.w2k.animeservice.response.ProducerGetResponse;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ProducerMapper {
 
   ProducerMapper INSTANCE = Mappers.getMapper(ProducerMapper.class);
@@ -24,5 +25,4 @@ public interface ProducerMapper {
   ProducerGetResponse toProducerGetResponse(Producer producer);
 
   List<ProducerGetResponse> toProducerGetResponseList(List<Producer> producers);
-
 }
