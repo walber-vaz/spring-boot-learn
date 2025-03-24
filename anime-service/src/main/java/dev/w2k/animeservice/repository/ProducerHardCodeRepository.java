@@ -1,7 +1,6 @@
 package dev.w2k.animeservice.repository;
 
 import dev.w2k.animeservice.domain.Producer;
-import external.dependency.Connection;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -13,11 +12,11 @@ import org.springframework.stereotype.Repository;
 @Log4j2
 public class ProducerHardCodeRepository {
 
-  private final Connection connection;
+  //  private final Connection connection;
   private final ProducerData producerData;
 
   public List<Producer> findAll() {
-    log.info(connection);
+//    log.info(connection);
     return producerData.getProducers();
   }
 
