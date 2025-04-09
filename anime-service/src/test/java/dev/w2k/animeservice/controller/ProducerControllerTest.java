@@ -33,6 +33,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 // Pode usar @ComponentScan para importar todos os beans do pacote
 @ComponentScan(basePackages = "dev.w2k.animeservice")
+//@ActiveProfiles("test")
 class ProducerControllerTest {
 
   @Autowired
