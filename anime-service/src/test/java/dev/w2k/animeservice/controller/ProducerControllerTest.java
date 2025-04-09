@@ -1,10 +1,8 @@
 package dev.w2k.animeservice.controller;
 
 import dev.w2k.animeservice.domain.Producer;
-import dev.w2k.animeservice.mapper.ProducerMapperImpl;
 import dev.w2k.animeservice.repository.ProducerData;
 import dev.w2k.animeservice.repository.ProducerHardCodeRepository;
-import dev.w2k.animeservice.service.ProducerService;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
@@ -21,7 +19,7 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -34,8 +32,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @WebMvcTest(controllers = ProducerController.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 // Pode usar @ComponentScan para importar todos os beans do pacote
-@Import({ProducerMapperImpl.class, ProducerData.class, ProducerHardCodeRepository.class,
-    ProducerService.class})
+@ComponentScan(basePackages = "dev.w2k.animeservice")
 class ProducerControllerTest {
 
   @Autowired
@@ -45,7 +42,6 @@ class ProducerControllerTest {
   @MockitoSpyBean
   private ProducerHardCodeRepository repository;
   private List<Producer> producerList;
-
   @Autowired
   private ResourceLoader resourceLoader;
 
