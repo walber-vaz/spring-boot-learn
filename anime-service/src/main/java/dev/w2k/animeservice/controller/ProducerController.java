@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ProducerController {
 
-  private static final ProducerMapper MAPPER = ProducerMapper.INSTANCE;
+  private final ProducerMapper mapper;
   private final ProducerService service;
   /*
    *
@@ -47,7 +47,7 @@ public class ProducerController {
 
     var producers = this.service.findAll(name);
 
-    var response = MAPPER.toProducerGetResponseList(producers);
+    var response = mapper.toProducerGetResponseList(producers);
 
     return ResponseEntity.ok(response);
   }
@@ -57,7 +57,7 @@ public class ProducerController {
     log.info("Searching for producer with id: {}", id);
     var producer = this.service.findByIdOrThrowNotFound(id);
 
-    var response = MAPPER.toProducerGetResponse(producer);
+    var response = mapper.toProducerGetResponse(producer);
 
     return ResponseEntity.ok(response);
   }
@@ -70,14 +70,14 @@ public class ProducerController {
    * Quando colocar headers ele vai ficar obrigatorio
    * */
   @PostMapping
-  public ResponseEntity<ProducerGetResponse> create(
+  public ResponseEntity<ProducerGetResponse> save(
       @RequestBody ProducerPostRequest producerPostRequest) {
     log.info("Creating producer: {}", producerPostRequest);
-    var mapperProducer = MAPPER.toProducer(producerPostRequest);
+    var mapperProducer = mapper.toProducer(producerPostRequest);
 
     this.service.save(mapperProducer);
 
-    var response = MAPPER.toProducerGetResponse(mapperProducer);
+    var response = mapper.toProducerGetResponse(mapperProducer);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
@@ -95,7 +95,7 @@ public class ProducerController {
   @PutMapping
   public ResponseEntity<Void> update(@RequestBody ProducerPutRequest request) {
     log.info("Updating producer with: {}", request);
-    var mapperProducer = MAPPER.toProducer(request);
+    var mapperProducer = mapper.toProducer(request);
 
     this.service.update(mapperProducer);
 
