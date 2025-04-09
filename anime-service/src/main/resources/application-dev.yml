@@ -1,0 +1,8 @@
+server:
+  error:
+    include-stacktrace: always
+
+database:
+  url: localhost:5432
+  username: postgres
+  password: postgres

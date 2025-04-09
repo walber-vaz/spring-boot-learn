@@ -5,6 +5,8 @@ spring:
   threads:
     virtual:
       enabled: true
+  profiles:
+    active: dev
 
 # Podemos definir o contexto da aplicação Ex: /anime-service
 #server:
@@ -19,4 +21,9 @@ server:
   error:
     # Remove a mensagem de erro padrão do Spring Boot sendo que pode ver passado por param ?trace=true
     # Em prod colocar como never
-    include-stacktrace: on_param
+    include-stacktrace: never
+
+database:
+  url: ${DB_URL}
+  username: ${DB_USERNAME}
+  password: ${DB_PASSWORD}
