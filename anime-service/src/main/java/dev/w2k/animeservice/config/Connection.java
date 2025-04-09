@@ -1,4 +1,4 @@
-package external.dependency;
+package dev.w2k.animeservice.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
