@@ -1,4 +1,4 @@
-package dev.w2k.exceptions;
+package dev.w2k.exception;
 
 public record DefaultErrorMessage(
     String message,
