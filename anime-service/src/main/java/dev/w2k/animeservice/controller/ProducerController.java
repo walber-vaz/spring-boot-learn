@@ -5,6 +5,7 @@ import dev.w2k.animeservice.request.ProducerPostRequest;
 import dev.w2k.animeservice.request.ProducerPutRequest;
 import dev.w2k.animeservice.response.ProducerGetResponse;
 import dev.w2k.animeservice.service.ProducerService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,7 +72,7 @@ public class ProducerController {
    * */
   @PostMapping
   public ResponseEntity<ProducerGetResponse> save(
-      @RequestBody ProducerPostRequest producerPostRequest) {
+      @Valid @RequestBody ProducerPostRequest producerPostRequest) {
     log.info("Creating producer: {}", producerPostRequest);
     var mapperProducer = mapper.toProducer(producerPostRequest);
 
