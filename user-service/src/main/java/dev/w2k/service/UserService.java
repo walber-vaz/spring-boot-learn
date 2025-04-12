@@ -1,7 +1,7 @@
 package dev.w2k.service;
 
 import dev.w2k.domain.User;
-import dev.w2k.exceptions.NotFoundException;
+import dev.w2k.exception.NotFoundException;
 import dev.w2k.repository.UserHardCodedRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
